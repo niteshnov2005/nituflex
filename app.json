@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/logo.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.niteshsirvi2005.nituflex"
     },
     "web": {
       "output": "static",
@@ -43,6 +44,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "34fccd92-d04b-49aa-95ea-db4a8206c35a"
+      }
     }
   }
 }
