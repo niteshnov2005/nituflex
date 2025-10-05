@@ -3,6 +3,7 @@ import SearchBar from '@/components/SearchBar';
 import { icons } from '@/constants/icons';
 import { images } from '@/constants/images';
 import { fetchMovies } from '@/services/api';
+import { updateMovieCount } from '@/services/appwrite';
 import useFetch from '@/services/useFetch';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
@@ -17,21 +18,25 @@ const search = () => {
     error,refetch:loadmovies,reset}=useFetch(() => fetchMovies({query:searchQuery}),false);
 
 
-    useEffect(() => {
-      const timeoutid = setTimeout(async() => {
-        if(searchQuery.trim()){
-          await loadmovies();
-        }
-        else{
-          reset();
-        }
-      },500);
-      return () => {
-        clearTimeout(timeoutid);
-      }
-    }, [searchQuery])
-    
+  useEffect(() => {
+  const timeoutId = setTimeout(() => {
+    if (searchQuery.trim()) {
+      loadmovies();
+    } else {
+      reset();
+    }
+  }, 500);
 
+  return () => clearTimeout(timeoutId);
+}, [searchQuery]);
+
+
+useEffect(() => {
+  if (movies && movies.length > 0 && searchQuery.trim()) {
+    updateMovieCount(searchQuery, movies[0]);
+  }
+}, [movies]);
+ 
   return (
     <View className='flex-1 bg-black'>
        <Image source={images.bg} className="absolute w-full z-0" />
@@ -47,8 +52,8 @@ const search = () => {
           {error && (<Text className="text-red-500 text-center mt-20">{error.message}</Text>)}
           {!loading &&
               !error &&
-              searchQuery.trim() &&
-              movies?.length !== 0 && (
+              searchQuery.trim() && Array.isArray(movies) &&
+              movies?.length > 0 && (
                 <Text className="text-xl text-white font-semibold mb-5">
                   Search Results for {''}
                   <Text className="text-accent">{searchQuery}</Text>

@@ -7,6 +7,7 @@ import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, FlatList, Image, ScrollView, Text, View } from "react-native";
 
+
 export default function Index() {
   const router = useRouter();
   const{ data : movies,
@@ -32,7 +33,7 @@ export default function Index() {
            
               <View className="mt-10">
                 <Text className="text-lg text-white font-bold mb-3">
-                  Trending Movies
+                  Trending Movies 
                 </Text>
                 <FlatList
                   data={movies}
